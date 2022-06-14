@@ -166,6 +166,27 @@ public class FluxAndMonoGeneratorService {
                 .log();
     }
 
+    public Mono<String> nameMono_defaultIfEmpty(int strLength)
+    {
+        return Mono.just("Ram")
+                .map(String::toUpperCase)
+                .filter(s -> s.length() > strLength)
+                .defaultIfEmpty("default")
+                .log();
+    }
+
+    public Mono<String> nameMono_switchIfEmpty(int strLength)
+    {
+        Function<Mono<String>,Mono<String>> function = name -> name.map(String::toUpperCase)
+                                                                    .filter(s -> s.length() > strLength);
+        var defaultMono = Mono.just("default").transform(function);
+
+        return Mono.just("Ram")
+                .transform(function)
+                .switchIfEmpty(defaultMono)
+                .log();
+    }
+
     public Mono<String> nameMono(){
         return Mono.just("Jai Bajrangbali").log();
     }

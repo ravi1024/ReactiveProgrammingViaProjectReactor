@@ -246,4 +246,33 @@ class FluxAndMonoGeneratorServiceTest {
                 .verifyComplete();
     }
 
+    @Test
+    public void nameMono_defaultIfEmpty()
+    {
+       //given
+        int strLength =5;
+
+        //when
+        var result = fluxAndMonoGeneratorService.nameMono_defaultIfEmpty(strLength);
+
+        //then
+        StepVerifier.create(result)
+                .expectNext("default")
+                .verifyComplete();
+    }
+
+    @Test
+    public void nameMono_switchIfEmpty()
+    {
+        //given
+        int strLength =5;
+
+        //when
+        var result = fluxAndMonoGeneratorService.nameMono_switchIfEmpty(strLength);
+
+        //then
+        StepVerifier.create(result)
+                .expectNext("DEFAULT")
+                .verifyComplete();
+    }
 }
